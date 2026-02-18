@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "voice-claude-permissions": {
+      "command": "python",
+      "args": ["permission_server_mcp.py"],
+      "env": {
+        "VOICE_CLAUDE_PERMISSION_PORT": "19384"
+      }
+    }
+  }
+}
