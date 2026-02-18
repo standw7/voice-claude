@@ -3,7 +3,7 @@
 import asyncio
 import json
 import os
-from config import CLAUDE_CMD, CLAUDE_TIMEOUT, CLAUDE_WORKING_DIR
+from config import CLAUDE_CMD, CLAUDE_TIMEOUT, CLAUDE_WORKING_DIR, CLAUDE_ENV_STRIP
 
 
 class ClaudeInterface:
@@ -27,11 +27,17 @@ class ClaudeInterface:
         print(f"[Claude] Running: {' '.join(cmd[:6])}...")
 
         try:
+            # Strip env vars that cause "nested session" errors
+            env = {k: v for k, v in os.environ.items()
+                   if k not in CLAUDE_ENV_STRIP}
+
             proc = await asyncio.create_subprocess_exec(
                 *cmd,
                 stdout=asyncio.subprocess.PIPE,
                 stderr=asyncio.subprocess.PIPE,
+                stdin=asyncio.subprocess.DEVNULL,
                 cwd=cwd,
+                env=env,
             )
 
             stdout, stderr = await asyncio.wait_for(
@@ -44,7 +50,7 @@ class ClaudeInterface:
             if proc.returncode != 0:
                 err = stderr.decode("utf-8", errors="replace").strip()
                 print(f"[Claude] Error (exit {proc.returncode}): {err[:200]}")
-                return f"Claude encountered an error: {err[:300]}"
+                return self._friendly_error(err)
 
             return self._parse_response(output)
 
@@ -83,6 +89,20 @@ class ClaudeInterface:
                     return str(data[key])
 
         return output if output else "Claude returned an empty response."
+
+    def _friendly_error(self, err_text: str) -> str:
+        """Convert raw stderr into a short, speakable error message."""
+        lowered = err_text.lower()
+        if "cannot be launched inside another" in lowered or "nested" in lowered:
+            return ("Claude couldn't start because of a nesting conflict. "
+                    "Try restarting voice mode.")
+        if "not found" in lowered or "no such file" in lowered:
+            return "Claude Code CLI was not found. Make sure it's installed."
+        if "rate limit" in lowered or "429" in lowered:
+            return "Claude is rate-limited right now. Please wait a moment."
+        if "authentication" in lowered or "unauthorized" in lowered or "401" in lowered:
+            return "Claude authentication failed. Check your API key."
+        return "Claude encountered an error. Please try again."
 
     def new_session(self):
         """Start a new conversation (forget session_id)."""

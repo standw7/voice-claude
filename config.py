@@ -22,6 +22,7 @@ HOTKEY = "right shift+."  # Push-to-talk key (hold to record, release to send)
 CLAUDE_CMD = "claude"
 CLAUDE_TIMEOUT = 120  # seconds
 CLAUDE_WORKING_DIR = None  # set at runtime or defaults to cwd
+CLAUDE_ENV_STRIP = ["CLAUDECODE", "CLAUDE_CODE_ENTRYPOINT"]  # prevent nesting errors
 
 # Summarization
 MAX_SPEECH_CHARS = 500  # condense responses longer than this

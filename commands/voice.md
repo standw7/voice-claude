@@ -10,8 +10,8 @@ Launch Voice Claude, the voice-driven interface for Claude Code.
 ### Steps
 
 1. First, check if voice-claude dependencies are installed:
-```
-!`python -c "import faster_whisper, edge_tts, sounddevice, keyboard, pystray" 2>&1 && echo "DEPS_OK" || echo "DEPS_MISSING"`
+```bash
+python -c "import faster_whisper, edge_tts, sounddevice, keyboard, pystray" 2>&1 && echo "DEPS_OK" || echo "DEPS_MISSING"
 ```
 
 2. If dependencies are missing, install them:
@@ -23,9 +23,9 @@ pip install faster-whisper edge-tts sounddevice numpy keyboard pystray Pillow mi
    - `~/Downloads/Projects/voice-claude/main.py`
    - The current working directory if it contains `main.py` with voice-claude code
 
-4. Launch voice mode by running:
+4. Launch voice mode by running (unset env vars to prevent nesting errors):
 ```bash
-python <path-to-voice-claude>/main.py
+CLAUDECODE= CLAUDE_CODE_ENTRYPOINT= python <path-to-voice-claude>/main.py
 ```
 
 5. Tell the user: "Voice mode is starting. Hold Right Shift to speak, release to send. Press Ctrl+C to exit voice mode."
