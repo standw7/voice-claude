@@ -28,6 +28,6 @@ pip install faster-whisper edge-tts sounddevice numpy keyboard pystray Pillow mi
 python <path-to-voice-claude>/main.py
 ```
 
-5. Tell the user: "Voice mode is starting. Press F9 to speak commands. Press Ctrl+C to exit voice mode."
+5. Tell the user: "Voice mode is starting. Hold Right Shift to speak, release to send. Press Ctrl+C to exit voice mode."
 
 **Important**: This launches an interactive voice loop. The process stays running until the user presses Ctrl+C. Do NOT try to capture the output or wait for it to finish — just launch it and let the user interact with it directly.

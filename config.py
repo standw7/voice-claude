@@ -15,7 +15,7 @@ EDGE_TTS_VOICE = "en-US-GuyNeural"
 TTS_FALLBACK_RATE = 175  # pyttsx3 words per minute
 
 # Hotkey
-HOTKEY = "f9"  # Phase 1: simple toggle key. Phase 3: Ctrl+Space push-to-talk
+HOTKEY = "right shift"  # Push-to-talk key (hold to record, release to send)
 
 # Claude Code CLI
 CLAUDE_CMD = "claude"
