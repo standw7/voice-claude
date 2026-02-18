@@ -194,9 +194,7 @@ async def main():
     loop = asyncio.get_event_loop()
     await loop.run_in_executor(None, stt_engine.load_model)
 
-    # Speak ready notification
-    await speak("Voice Claude is ready.")
-    print(f"\nPress {HOTKEY.upper()} to speak a command. Press Ctrl+C to quit.\n")
+    print(f"\nReady. Press {HOTKEY.upper()} to speak a command. Press Ctrl+C to quit.\n")
 
     # Push-to-talk hotkey
     trigger = asyncio.Event()

@@ -1,7 +1,7 @@
 # Voice Claude - Project Instructions
 
 ## What This Is
-A voice-driven wrapper around Claude Code. User presses Right Shift (hold to talk, release to send), speaks a command, Claude Code executes it autonomously, then reads aloud a summary.
+A voice-driven wrapper around Claude Code. User presses Right Shift + Period (hold to talk, release to send), speaks a command, Claude Code executes it autonomously, then reads aloud a summary.
 
 ## Setup on a New Machine
 
@@ -34,7 +34,7 @@ That's it. Two commands: clone + `python setup.py`.
 - `main.py` - Entry point, async orchestrator, TCP permission server
 - `config.py` - All configuration constants (hotkey, audio, TTS voice, etc.)
 - `state.py` - App state machine (IDLE/LISTENING/PROCESSING/etc.)
-- `hotkey.py` - Right Shift push-to-talk via `keyboard` library
+- `hotkey.py` - Right Shift + Period push-to-talk via `keyboard` library
 - `audio_input.py` - Microphone recording via `sounddevice` with silence detection
 - `stt.py` - faster-whisper CUDA/CPU transcription
 - `claude_interface.py` - Claude Code CLI subprocess wrapper + session continuity
@@ -52,7 +52,7 @@ python main.py
 Or use `/voice` from any Claude Code session.
 
 ## Hotkey
-- **Right Shift**: Hold to record, release to send (push-to-talk)
+- **Right Shift + Period**: Hold to record, release to send (push-to-talk)
 - Configurable in `config.py` via the `HOTKEY` variable
 - The `keyboard` library supports: `right shift`, `left shift`, `ctrl+space`, `f1`-`f12`, etc.
 
@@ -62,3 +62,4 @@ Or use `/voice` from any Claude Code session.
 - TCP IPC on port 19384 for permission confirmation between MCP server and main process
 - Whisper tries CUDA first, falls back to CPU
 - TTS tries edge-tts first, falls back to pyttsx3
+- TTS volume controlled by `TTS_VOLUME` in config.py (default 0.5 = half volume)

@@ -7,7 +7,7 @@ import os
 import numpy as np
 import sounddevice as sd
 
-from config import EDGE_TTS_VOICE, TTS_FALLBACK_RATE, SAMPLE_RATE
+from config import EDGE_TTS_VOICE, TTS_FALLBACK_RATE, SAMPLE_RATE, TTS_VOLUME
 
 
 async def _edge_tts_speak(text: str) -> bool:
@@ -30,10 +30,10 @@ async def _edge_tts_speak(text: str) -> bool:
         # Decode MP3 to raw PCM using miniaudio
         decoded = miniaudio.decode(audio_bytes, sample_rate=24000, nchannels=1)
         samples = np.array(decoded.samples, dtype=np.float32)
-        # Normalize
+        # Normalize and apply volume
         max_val = np.max(np.abs(samples))
         if max_val > 0:
-            samples = samples / max_val * 0.9
+            samples = samples / max_val * 0.9 * TTS_VOLUME
 
         # Play via sounddevice
         loop = asyncio.get_event_loop()
@@ -58,6 +58,7 @@ async def _pyttsx3_speak(text: str) -> bool:
         def _speak():
             engine = pyttsx3.init()
             engine.setProperty("rate", TTS_FALLBACK_RATE)
+            engine.setProperty("volume", TTS_VOLUME)
             engine.say(text)
             engine.runAndWait()
             engine.stop()

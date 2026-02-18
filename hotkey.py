@@ -26,11 +26,11 @@ class PushToTalk:
 
         # For push-to-talk, we need key down and key up events
         if "+" in self._hotkey:
-            # Combo key like ctrl+space - use hotkey with on_press/on_release
+            # Combo key like right shift+. - use hotkey with on_press/on_release
             keyboard.add_hotkey(self._hotkey, self._on_press, suppress=False)
-            # For release detection on combos, watch for space key up
-            # (since ctrl+space release = space release while ctrl held)
-            keyboard.on_release_key("space", self._on_release_key, suppress=False)
+            # For release detection on combos, watch for the last key to release
+            last_key = self._hotkey.split("+")[-1].strip()
+            keyboard.on_release_key(last_key, self._on_release_key, suppress=False)
         else:
             # Simple key like F9
             keyboard.on_press_key(self._hotkey, lambda _: self._on_press(),

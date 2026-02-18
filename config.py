@@ -13,9 +13,10 @@ WHISPER_COMPUTE_TYPE = "float16"  # "float16" for GPU, "int8" for CPU
 # TTS
 EDGE_TTS_VOICE = "en-US-GuyNeural"
 TTS_FALLBACK_RATE = 175  # pyttsx3 words per minute
+TTS_VOLUME = 0.5  # Volume multiplier (0.0 to 1.0)
 
 # Hotkey
-HOTKEY = "right shift"  # Push-to-talk key (hold to record, release to send)
+HOTKEY = "right shift+."  # Push-to-talk key (hold to record, release to send)
 
 # Claude Code CLI
 CLAUDE_CMD = "claude"
